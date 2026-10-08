@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HONOR.com - Key Tool</title>
+<style>
+    * { box-sizing: border-box; }
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+            radial-gradient(circle at 20% 20%, rgba(76, 42, 150, .22), transparent 28%),
+            radial-gradient(circle at 80% 70%, rgba(35, 65, 150, .18), transparent 30%),
+            radial-gradient(circle at 50% 110%, rgba(123, 44, 255, .12), transparent 35%),
+            #050611;
+        color: #f2f2f2;
+        font-family: Arial, sans-serif;
+        font-weight: 400;
+        overflow: hidden;
+    }
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+            radial-gradient(circle at 15% 35%, rgba(255,255,255,.07) 0 1px, transparent 2px),
+            radial-gradient(circle at 72% 18%, rgba(255,255,255,.06) 0 1px, transparent 2px),
+            radial-gradient(circle at 88% 62%, rgba(255,255,255,.05) 0 1px, transparent 2px),
+            radial-gradient(circle at 38% 82%, rgba(255,255,255,.045) 0 1px, transparent 2px);
+        background-size: 180px 180px, 230px 230px, 270px 270px, 210px 210px;
+        opacity: .75;
+    }
+    .particle {
+        position: fixed;
+        width: 2px;
+        height: 2px;
+        border-radius: 50%;
+        background: #b59cff;
+        box-shadow: 0 0 8px rgba(150,110,255,.7);
+        pointer-events: none;
+        opacity: .45;
+        animation: floatParticle linear infinite;
+    }
+    @keyframes floatParticle {
+        from { transform: translateY(105vh); opacity: 0; }
+        15% { opacity: .45; }
+        85% { opacity: .45; }
+        to { transform: translateY(-8vh); opacity: 0; }
+    }
+    .card {
+        width: min(420px, 92vw);
+        padding: 30px;
+        border: 1px solid #292936;
+        border-radius: 18px;
+        background: rgba(21,21,28,.92);
+        box-shadow:
+            0 0 22px rgba(123,44,255,.14),
+            0 12px 35px rgba(0,0,0,.35);
+        text-align: center;
+        position: relative;
+        z-index: 2;
+        animation: cardIn .35s ease-out;
+    }
+    @keyframes cardIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes keyPop {
+        0% { opacity: .25; transform: translateY(5px) scale(.98); }
+        60% { opacity: 1; transform: translateY(-2px) scale(1.01); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .key-pop {
+        animation: keyPop .35s ease-out;
+    }
+    h1 { margin: 0 0 8px; letter-spacing: 2px; font-weight: 500; }
+    p { color: #9999a8; margin: 0 0 24px; }
+    .key {
+        min-height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        margin-bottom: 14px;
+        border-radius: 10px;
+        background: #0e0e13;
+        border: 1px solid #30303d;
+        font-size: 17px;
+        font-weight: 400;
+        letter-spacing: .2px;
+        word-break: break-all;
+    }
+    button {
+        width: 100%;
+        padding: 13px;
+        border: 0;
+        border-radius: 10px;
+        background: #7b2cff;
+        color: white;
+        font-size: 15px;
+        font-weight: 400;
+        cursor: pointer;
+        margin-top: 8px;
+    }
+    button {
+        transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+    }
+    button:hover {
+        filter: brightness(1.12);
+        transform: translateY(-2px);
+        box-shadow: 0 0 18px rgba(123,44,255,.28);
+    }
+    button:active {
+        transform: translateY(1px) scale(.99);
+    }
+    .flash {
+        animation: flash .35s ease;
+    }
+    @keyframes flash {
+        0% { box-shadow: 0 0 0 rgba(123,44,255,0); }
+        45% { box-shadow: 0 0 28px rgba(123,44,255,.65); }
+        100% { box-shadow: 0 0 0 rgba(123,44,255,0); }
+    }
+    .copy { background: #292933; }
+    .status { min-height: 20px; margin-top: 12px; color: #9d9daa; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="particle" style="left:9%;animation-duration:12s;animation-delay:-4s"></div>
+<div class="particle" style="left:24%;animation-duration:15s;animation-delay:-9s"></div>
+<div class="particle" style="left:43%;animation-duration:13s;animation-delay:-6s"></div>
+<div class="particle" style="left:67%;animation-duration:16s;animation-delay:-11s"></div>
+<div class="particle" style="left:84%;animation-duration:14s;animation-delay:-7s"></div>
+
+<div class="card">
+    <h1>HONOR.com</h1>
+    <p>simple key tool</p>
+
+    <div id="key" class="key">Press Generate</div>
+
+    <button onclick="generateKey()">Generate</button>
+    <button class="copy" onclick="copyKey()">Copy</button>
+
+    <div id="status" class="status"></div>
+
+    <div style="margin-top:18px;padding-top:14px;border-top:1px solid #292936;
+                color:#686874;font-size:11px;text-align:left;">
+        4 keys available
+    </div>
+</div>
+
+<script>
+const keys = ["noob123", "cheat_honor", "honor_win", "debug_mode"];
+
+let currentKey = "";
+
+function generateKey() {
+    const index = Math.floor(Math.random() * keys.length);
+    currentKey = keys[index];
+
+    const keyBox = document.getElementById("key");
+    keyBox.textContent = currentKey;
+    keyBox.classList.remove("flash", "key-pop");
+    void keyBox.offsetWidth;
+    keyBox.classList.add("key-pop", "flash");
+
+    document.getElementById("status").textContent = "key generated";
+}
+
+async function copyKey() {
+    if (!currentKey) {
+        document.getElementById("status").textContent = "Generate a key first.";
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(currentKey);
+        document.getElementById("status").textContent = "Key copied!";
+    } catch {
+        document.getElementById("status").textContent = "Copy failed. Select the key manually.";
+    }
+}
+</script>
+</body>
+</html>
